@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AdminAuthMiddleware } from "../api/authMiddleware";
+
 import { useNavigate } from "react-router-dom";
 import { postLogin } from "../api/apiCall";
 import { useDispatch } from "react-redux";

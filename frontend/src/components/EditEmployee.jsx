@@ -140,9 +140,9 @@ function EditEmployee() {
                   value={designation}
                   onChange={(e) => setDesignation(e.target.value)}
                 >
-                  <option>Phd</option>
-                  <option>Msc</option>
-                  <option>Mhd</option>
+                  <option>Manager</option>
+                  <option>HR</option>
+                  <option>Sales</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <svg
@@ -199,9 +199,9 @@ function EditEmployee() {
                   value={course}
                   onChange={(e) => setCourse(e.target.value)}
                 >
-                  <option>BBA</option>
-                  <option>acca</option>
-                  <option>cma</option>
+                  <option>MCA</option>
+                  <option>BSC</option>
+                  <option>MSC</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <svg

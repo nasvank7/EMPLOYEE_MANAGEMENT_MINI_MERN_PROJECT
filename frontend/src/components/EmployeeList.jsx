@@ -40,8 +40,6 @@ const EmployeeList = () => {
     return false;
   });
 
-  console.log(filteredEmployee);
-
   const handleDelete = async (id) => {
     console.log(id);
     const confirmDelete = window.confirm(`Are you sure you want to delete`);
