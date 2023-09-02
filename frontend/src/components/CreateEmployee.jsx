@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { createEmployee } from "../api/apiCall";
 import { validationSchema } from "../const/validation";
 import { toast } from "react-toastify";
+// import ImageUploader from 'react-image-upload'
+// import 'react-image-upload/dist/index.css'
 function CreateEmployee() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -13,65 +15,65 @@ function CreateEmployee() {
   const [gender, setGender] = useState("");
   const [err, setErr] = useState("");
 
-  //   const [selectedImage, setSelectedImage] = useState(null);
+    // const [selectedImage, setSelectedImage] = useState(null);
   const navigate = useNavigate();
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
-  //   const handleImageUpload = (event) => {
-  //     setSelectedImage(event.target.files[0]);
-  //   };
+  const [file, setProfilePhoto] = useState(null);
+
+  // Handler for profile photo change
+  const handleProfilePhotoChange = (e) => {
+    const file = e.target.files[0];
+    console.log("Selected file:", file);
+    setProfilePhoto(URL.createObjectURL(file));
+    console.log( "profile photo",URL.createObjectURL(file));
+   
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent form submission
-
+    e.preventDefault(); 
+  
     try {
-      await validationSchema.validate(
-        {
-          username,
-          email,
-          mobile,
-          designation,
-          gender,
-          course,
-        },
-        { abortEarly: false }
-      );
-
-      const data = {
-        username,
-        email,
-        mobile,
-        designation,
-        gender,
-        course,
-      };
-      console.log(data);
-
-      const response = await createEmployee(data);
+      const data = new FormData(); 
+  
+      data.append("username", username);
+      data.append("email", email);
+      data.append("mobile", mobile);
+      data.append("designation", designation);
+      data.append("gender", gender);
+      data.append("course", course);
+      if (file) {
+        
+        data.append("image", file);
+      }
+      console.log(data,"////////");
+      const response = await createEmployee(data); 
       console.log(response);
-
+  
+      console.log(response);
+  
       if (response?.status !== 200) {
         setErr(response?.data.err);
       } else {
-        toast.success("created in Successfully", { autoClose: 2000 });
+        toast.success("Created Successfully", { autoClose: 2000 });
         navigate("/employee");
       }
     } catch (validationError) {
-      // Handle Yup validation errors here
-      const errorMessage = validationError.errors.join("");
+      
+      const errorMessage = validationError.errors;
       setErr(errorMessage);
       toast.error(errorMessage);
-      toast.error();
     }
   };
+  
 
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-lg mt-36">
         <h1 className="text-2xl font-bold  text-center">Create Employee</h1>
-        <form className="w-full max-w-lg mt-36">
+        <form className="w-full max-w-lg mt-36" encType='multipart/form-data'>
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
               <label
@@ -215,7 +217,10 @@ function CreateEmployee() {
             </div>
           </div>
 
-          {/* <div className="flex flex-wrap -mx-3 mb-2">
+          <div className="flex flex-wrap -mx-3 mb-2">
+            <div>
+            <img src={file} width="100px" height="100px" alt="" />
+            </div>
         <div className="w-full px-3">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-image">
             Upload Image
@@ -224,12 +229,15 @@ function CreateEmployee() {
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="grid-image"
             type="file"
+            name="image"
             accept="image/*"
-            onChange={handleImageUpload}
+
+            onChange={handleProfilePhotoChange}
           />
         </div>
-      </div> */}
+      </div>
           <div className="flex flex-wrap -mx-3 mb-2">
+           
             <div className="w-full px-3">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

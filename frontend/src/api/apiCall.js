@@ -27,6 +27,7 @@ export const deleteEmployee = async (id) => {
 export const createEmployee = async (data) => {
   try {
     const resp = await methodApi("post", adminUrls.createEmployee, data);
+    console.log(resp);
     return resp;
   } catch (error) {}
 };

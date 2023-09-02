@@ -85,6 +85,7 @@ function EditEmployee() {
                 className="appearance-none block w-full bg-gray-200 text-gray-700 borderrounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                 id="grid-first-name"
                 type="text"
+                name="username"
                 placeholder="jane"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -215,21 +216,6 @@ function EditEmployee() {
               </div>
             </div>
           </div>
-
-          {/* <div className="flex flex-wrap -mx-3 mb-2">
-        <div className="w-full px-3">
-          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-image">
-            Upload Image
-          </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="grid-image"
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-          />
-        </div>
-      </div> */}
           <div className="flex flex-wrap -mx-3 mb-2">
             <div className="w-full px-3">
               <button

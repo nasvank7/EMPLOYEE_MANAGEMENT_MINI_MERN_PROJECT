@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken'
+import { adminUsername } from '../Controllers/adminController.js'
 
 const generateToken=(res,username)=>{
-    const token=jwt.sign({username},process.env.JWT_SECRET,{
+    const token=jwt.sign({username:adminUsername},process.env.JWT_SECRET,{
         expiresIn:'30d'
     })
     res.cookie('jwt',token,{

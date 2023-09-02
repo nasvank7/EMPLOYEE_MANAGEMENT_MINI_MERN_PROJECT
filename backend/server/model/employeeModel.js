@@ -25,9 +25,12 @@ const employeeSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  image: {
-    type: String,
-  },
+  image:[{
+    type:String,
+    
+   
+   
+}],
   createdAt: {
     type: Date,
     default: new Date(),

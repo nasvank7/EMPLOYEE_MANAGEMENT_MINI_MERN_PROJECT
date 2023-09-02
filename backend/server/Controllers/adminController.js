@@ -1,6 +1,8 @@
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 import Employee from "../model/employeeModel.js";
+import jwt from 'jsonwebtoken'
+
 
 const adminCred = {
   username: "nasvan",
@@ -10,10 +12,18 @@ const adminCred = {
 const adminUsername = adminCred.username;
 
 const authAdmin = asyncHandler(async (req, res) => {
+  console.log(adminUsername);
   if (adminUsername === req.body.username) {
     if (adminCred.password === req.body.password) {
-      let token = generateToken(res, adminUsername);
-      res.status(200).json({ success: true }).send(token);
+      let token =  jwt.sign({
+        username: adminUsername,
+      }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+      console.log(token,"/////////");
+      res.status(200).json({ success: true,token:token })
+     
+      
     } else {
       throw new Error("Invalid password");
     }
@@ -22,6 +32,23 @@ const authAdmin = asyncHandler(async (req, res) => {
   }
 });
 const addEmployee = asyncHandler(async (req, res) => {
+  console.log(req.files,"///////reqfiles");
+  const images = req.files;
+  let cloudImageUrls = [];
+
+  if (images && images.length > 0) {
+    // Create an array of Promises for uploading images
+    const uploadPromises = images.map(async (image) => {
+      const result = await cloudinary.uploader.upload(image.path); // Upload image to Cloudinary
+      return result.secure_url; // Return the secure URL
+    });
+
+    // Wait for all image uploads to complete
+    cloudImageUrls = await Promise.all(uploadPromises);
+  }
+
+  console.log("Cloud Image URLs:", cloudImageUrls);
+
   const employee = new Employee({
     username: req.body.username,
     email: req.body.email,
@@ -29,11 +56,13 @@ const addEmployee = asyncHandler(async (req, res) => {
     designation: req.body.designation,
     gender: req.body.gender,
     course: req.body.course,
-    // image:req.file.filename
+    image: cloudImageUrls,
   });
+
   await employee.save();
   res.status(200).send({ message: "Employee created successfully" });
 });
+
 
 const getEmployee = async (req, res) => {
   const employee = await Employee.find();

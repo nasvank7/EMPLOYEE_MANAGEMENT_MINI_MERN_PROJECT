@@ -1,30 +1,19 @@
 import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
-import { adminUsername } from "../Controllers/adminController";
+import { adminUsername } from "../Controllers/adminController.js";
 
-export const protect = asyncHandler(async (req, res, next) => {
-  let token;
-  token = req.cookies.jwt;
+ export const verifyAuth = asyncHandler(async (req, res, next) => {
+  let token=req.header('authorization').split(' ')[1];
+  token=token.replaceAll('"', '')
 
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decoded,"heloooooooo");
-      if (decoded.username === adminUsername) {
-       
-        req.user = {
-          username: decoded.username, 
-        };
-        next();
-      } else {
-        res.status(401).json({ message: "Invalid user" });
-      }
-    } catch (error) {
-      res.status(401).json({ message: "Invalid token" });
-    }
-  } else {
-    res.status(401).json({ message: "Not authorized, no token" });
+  const decodedToken=jwt.verify(token,process.env.JWT_SECRET)
+  console.log(decodedToken,"decodetoken/////////////");
+  if(decodedToken){
+    next()
+  }else{
+    res.status(401).json({error:'verification failed'})
   }
+  
 });
 
 

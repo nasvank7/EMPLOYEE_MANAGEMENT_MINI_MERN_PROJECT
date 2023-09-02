@@ -69,7 +69,8 @@ const EmployeeList = () => {
     mobile,
     designation,
     gender,
-    course
+    course,
+    image
   ) => {
     navigate("/editemployee", {
       state: {
@@ -80,6 +81,7 @@ const EmployeeList = () => {
         designation,
         gender,
         course,
+        image
       },
     });
   };
@@ -110,6 +112,8 @@ const EmployeeList = () => {
             <thead>
               <tr>
                 <th className="px-4 py-2">SI NO</th>
+                <th className="px-4 py-2">Profile Photo</th>
+
                 <th className="px-4 py-2">Username</th>
                 <th className="px-4 py-2">Email</th>
                 <th className="px-4 py-2">Mobile No</th>
@@ -131,6 +135,7 @@ const EmployeeList = () => {
                 filteredEmployee.map((employee, index) => (
                   <tr key={employee.id}>
                     <td className="border px-4 py-2">{index + 1}</td>
+                    <td className="border px-4 py-2">{employee.image}</td>
                     <td className="border px-4 py-2">{employee.username}</td>
                     <td className="border px-4 py-2">{employee.email}</td>
                     <td className="border px-4 py-2">{employee.mobile}</td>

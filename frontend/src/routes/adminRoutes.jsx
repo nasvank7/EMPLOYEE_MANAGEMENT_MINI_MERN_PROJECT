@@ -1,11 +1,11 @@
 import React from "react";
 
-import App from "../App";
 import AdminLogin from "../pages/AdminLogin";
 import AdminHome from "../pages/AdminHome";
 import EmployeeList from "../components/EmployeeList";
 import { Provider } from "react-redux";
 import store from "../../redux/store";
+import App from "../App";
 import CreateEmployee from "../components/CreateEmployee";
 import EditEmployee from "../components/EditEmployee";
 
